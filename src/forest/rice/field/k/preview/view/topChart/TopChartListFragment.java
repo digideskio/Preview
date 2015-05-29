@@ -7,6 +7,7 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import forest.rice.field.k.preview.R;
 import forest.rice.field.k.preview.entity.Item;
 import forest.rice.field.k.preview.manager.MediaPlayerManager;
 import forest.rice.field.k.preview.view.topChart.TopChartAsyncTask.TopChartAsyncTaskCallback;
@@ -32,10 +33,22 @@ public class TopChartListFragment extends ListFragment implements TopChartAsyncT
 		task.execute();
 	}
 	
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		getActivity().getActionBar().setTitle(getString(R.string.app_name));
+	};
+	
 	List<Integer> playingList = new ArrayList<Integer>();
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
+//		getActivity()
+//		.getFragmentManager().beginTransaction()
+//        .replace(R.id.container, new CollectionFragment())
+//        .addToBackStack(null)
+//        .commit();
 		try {
 			MediaPlayerManager manager = MediaPlayerManager.getInstance();
 			

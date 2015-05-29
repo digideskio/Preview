@@ -5,12 +5,14 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import forest.rice.field.k.preview.R;
 import forest.rice.field.k.preview.entity.Item;
+import forest.rice.field.k.preview.manager.MediaPlayerManager;
 import forest.rice.field.k.preview.volley.VolleyManager;
 
 public class TopChartArrayAdapter extends ArrayAdapter<Item> {
@@ -47,7 +49,7 @@ public class TopChartArrayAdapter extends ArrayAdapter<Item> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		Item item = itemList.get(position);
+		final Item item = itemList.get(position);
 
 		holder.name.setText(item.name);
 		holder.artist.setText(item.artist);
@@ -56,6 +58,19 @@ public class TopChartArrayAdapter extends ArrayAdapter<Item> {
 		manager.imageGet(item.image, holder.image, R.drawable.ic_launcher, R.drawable.ic_launcher);
 		
 		
+		holder.image.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				MediaPlayerManager manager = MediaPlayerManager.getInstance();
+					try {
+						manager.setDataSourceAndPlay(getContext(), item.previewUrl);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+			}
+		});
 		
 		return convertView;
 	}

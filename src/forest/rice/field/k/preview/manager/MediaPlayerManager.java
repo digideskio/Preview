@@ -13,6 +13,7 @@ public class MediaPlayerManager implements OnPreparedListener, OnCompletionListe
 	private static MediaPlayerManager manager;
 	
 	private MediaPlayer player;
+	private String path;
 	
 	private MediaPlayerManager(){
 		player = new MediaPlayer();
@@ -30,6 +31,12 @@ public class MediaPlayerManager implements OnPreparedListener, OnCompletionListe
 		if(player.isPlaying()) {
 			player.stop();
 		}
+		if(this.path == path) {
+			this.path = null;
+			return;
+		}
+		this.path = path;
+		
 		player.reset();
 		player.setDataSource(path);
 		player.prepareAsync();
