@@ -8,11 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import forest.rice.field.k.preview.R;
-import forest.rice.field.k.preview.entity.SearchResult;
+import forest.rice.field.k.preview.entity.Track;
 import forest.rice.field.k.preview.entity.SearchResultItems;
 import forest.rice.field.k.preview.volley.VolleyManager;
 
-public class SearchResultArrayAdapter extends ArrayAdapter<SearchResult> {
+public class SearchResultArrayAdapter extends ArrayAdapter<Track> {
 	private LayoutInflater layoutInflater_;
 
 	private SearchResultItems item;

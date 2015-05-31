@@ -2,7 +2,7 @@ package forest.rice.field.k.preview.entity;
 
 import java.util.HashMap;
 
-public class SearchResult extends HashMap<String, String> {
+public class Track extends HashMap<String, String> {
 	/**
 	 * 
 	 */

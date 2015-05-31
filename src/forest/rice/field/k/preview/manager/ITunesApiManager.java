@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import forest.rice.field.k.preview.entity.SearchResult;
+import forest.rice.field.k.preview.entity.Track;
 import forest.rice.field.k.preview.entity.SearchResultItems;
 
 public class ITunesApiManager {
@@ -21,7 +21,7 @@ public class ITunesApiManager {
 		for (int i = 0; i < results.length(); i++) {
 			JSONObject result = results.getJSONObject(i);
 
-			SearchResult searchResult = new SearchResult();
+			Track searchResult = new Track();
 
 			Iterator<String> keys = result.keys();
 

@@ -3,7 +3,7 @@ package forest.rice.field.k.preview.entity;
 import java.util.ArrayList;
 
 
-public class SearchResultItems extends ArrayList<SearchResult>{
+public class SearchResultItems extends ArrayList<Track>{
 
 	/**
 	 * 
