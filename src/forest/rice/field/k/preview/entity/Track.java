@@ -1,6 +1,8 @@
 package forest.rice.field.k.preview.entity;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Track extends HashMap<String, String> {
 	/**
@@ -38,10 +40,31 @@ public class Track extends HashMap<String, String> {
 	public static String country = "country";
 	public static String currency = "currency";
 	public static String primaryGenreName = "primaryGenreName";
-
+	
+	public Track() {
+	}
+	
+	public Track(Serializable s) {
+		super();
+		try {
+			if(s instanceof HashMap<?, ?>) {
+				@SuppressWarnings("unchecked")
+				Map<String, String> map = (HashMap<String, String>)s;
+				for(Map.Entry<String, String> entry : map.entrySet()) {
+					String key = entry.getKey();
+					String value = entry.getValue();
+					this.put(key, value);
+				}
+			}
+		} catch(Exception e) {
+			
+		}
+	}
+	
 	@Override
 	public String get(Object key) {
 		String value = super.get(key);
 		return (value != null) ? value : "";
 	}
+	
 }

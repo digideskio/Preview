@@ -1,14 +1,13 @@
 package forest.rice.field.k.preview.view.searchResultView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import forest.rice.field.k.preview.entity.SearchResultItems;
-import forest.rice.field.k.preview.manager.MediaPlayerManager;
+import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService;
+import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService.Service;
 import forest.rice.field.k.preview.view.searchResultView.SearchResultAsyncTask.SearchResultAsyncTaskCallback;
 
 public class SearchResultFragment extends ListFragment implements
@@ -16,7 +15,9 @@ public class SearchResultFragment extends ListFragment implements
 
 	public static final String KEYWORD = "keyword";
 	
-	SearchResultItems items = null;
+	private SearchResultItems items = null;
+	
+	private String keyword = null;
 
 	public SearchResultFragment() {
 	}
@@ -32,7 +33,7 @@ public class SearchResultFragment extends ListFragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		String keyword = "";
+		keyword = "";
 		if(getArguments() != null) {
 			keyword = getArguments().getString(KEYWORD);
 		}
@@ -43,29 +44,36 @@ public class SearchResultFragment extends ListFragment implements
 	}
 	
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		try {
-			MediaPlayerManager manager = MediaPlayerManager.getInstance();
-				List<String> previewString = new ArrayList<String>();
-				for(int i = position; i < items.size(); i++) {
-				previewString.add(items.get(i).get("previewUrl"));
-				manager.setDataSource(previewString);
-				manager.playALl();				
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		
+		getActivity().getActionBar().setTitle(keyword);
 	}
 	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		Intent service = new Intent(getActivity(), MediaPlayerNitificationService.class);
+		service.setAction(Service.ACTION_TRACK_CLEAR);
+		getActivity().startService(service);
+		
+		for(int i = position; i < items.size(); i++) {
+			Intent service2 = new Intent(getActivity(), MediaPlayerNitificationService.class);
+			service2.putExtra("TRACK", items.get(i));
+			
+			service2.setAction(Service.ACTION_TRACK_ADD);
+			getActivity().startService(service2);
+		}
+		
+		service.setAction(Service.ACTION_PLAY);
+		getActivity().startService(service);
+	}
 	
-
 	@Override
 	public void callback(SearchResultItems result) {
 		items = result;
 		SearchResultArrayAdapter adapter = new SearchResultArrayAdapter(
 				getActivity(), 0, result);
-		setListAdapter(adapter);
-		
+		setListAdapter(adapter);		
 	}
-
 }

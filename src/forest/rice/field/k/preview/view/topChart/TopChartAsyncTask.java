@@ -1,15 +1,11 @@
 package forest.rice.field.k.preview.view.topChart;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.os.AsyncTask;
-import forest.rice.field.k.preview.entity.CollectionItem;
 import forest.rice.field.k.preview.entity.Item;
-import forest.rice.field.k.preview.manager.ITunesApiManager;
 import forest.rice.field.k.preview.manager.ITunesRssManager;
-import forest.rice.field.k.preview.request.ITunesApiCollectionLookupRequest;
 import forest.rice.field.k.preview.request.ITunesRssRequest;
 
 public class TopChartAsyncTask extends AsyncTask<String, String, List<Item>> {

@@ -14,7 +14,6 @@ public class MainActivity extends Activity implements OnQueryTextListener {
 
 	private SearchView searchView = null;
 	private MenuItem searchMenu = null;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,5 +74,4 @@ public class MainActivity extends Activity implements OnQueryTextListener {
 				.commit();
 		return true;
 	}
-
 }

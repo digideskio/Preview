@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import forest.rice.field.k.preview.R;
 import forest.rice.field.k.preview.entity.Item;
-import forest.rice.field.k.preview.manager.MediaPlayerManager;
+import forest.rice.field.k.preview.entity.Track;
+import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService;
+import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService.Service;
 import forest.rice.field.k.preview.view.topChart.TopChartAsyncTask.TopChartAsyncTaskCallback;
 
 public class TopChartListFragment extends ListFragment implements TopChartAsyncTaskCallback {
@@ -44,38 +47,30 @@ public class TopChartListFragment extends ListFragment implements TopChartAsyncT
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-//		getActivity()
-//		.getFragmentManager().beginTransaction()
-//        .replace(R.id.container, new CollectionFragment())
-//        .addToBackStack(null)
-//        .commit();
-		try {
-			MediaPlayerManager manager = MediaPlayerManager.getInstance();
+		
+		Intent service = new Intent(getActivity(), MediaPlayerNitificationService.class);
+		service.setAction(Service.ACTION_TRACK_CLEAR);
+		getActivity().startService(service);
+		
+		for(int i = position; i < itemList.size(); i++) {
+			Item item = itemList.get(i);
+			Track track = new Track();
 			
-			if(playingList.contains(position)) {
-				manager.stop();
-				playingList.clear();
-			} else {
-				
-				List<String> previewString = new ArrayList<String>();
-				for(int i = position; i < itemList.size(); i++) {
-					previewString.add(itemList.get(i).previewUrl);
-				}
-				
-//				Item item = itemList.get(position);
-//				manager.setDataSourceAndPlay(getActivity(), item.previewUrl);
-				
-				manager.setDataSource(previewString);
-				manager.playALl();
-				
-				playingList.clear();
-				playingList.add(position);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			track.put(Track.trackName, item.name);
+			track.put(Track.artworkUrl100, item.image);
+			track.put(Track.collectionName, item.collectionName);
+			track.put(Track.artistName, item.artist);
+			track.put(Track.previewUrl, item.previewUrl);
+			
+			Intent service2 = new Intent(getActivity(), MediaPlayerNitificationService.class);
+			service2.putExtra("TRACK", track);
+			
+			service2.setAction(Service.ACTION_TRACK_ADD);
+			getActivity().startService(service2);
 		}
 		
+		service.setAction(Service.ACTION_PLAY);
+		getActivity().startService(service);
 	}
 	
 	@Override

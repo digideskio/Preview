@@ -10,6 +10,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageLoader.ImageCache;
 import com.android.volley.toolbox.ImageLoader.ImageContainer;
 import com.android.volley.toolbox.ImageLoader.ImageListener;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 
 public class VolleyManager {

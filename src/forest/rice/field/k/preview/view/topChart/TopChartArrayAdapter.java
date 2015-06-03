@@ -57,21 +57,6 @@ public class TopChartArrayAdapter extends ArrayAdapter<Item> {
 		VolleyManager manager = VolleyManager.getInstance(getContext());
 		manager.imageGet(item.image, holder.image, R.drawable.ic_launcher, R.drawable.ic_launcher);
 		
-		
-		holder.image.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-				MediaPlayerManager manager = MediaPlayerManager.getInstance();
-					try {
-						manager.setDataSourceAndPlay(getContext(), item.previewUrl);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-			}
-		});
-		
 		return convertView;
 	}
 
