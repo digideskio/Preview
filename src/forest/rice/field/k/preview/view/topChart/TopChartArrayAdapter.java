@@ -53,8 +53,8 @@ public class TopChartArrayAdapter extends ArrayAdapter<Track> {
         holder.artist.setText(track.get(Track.artistName));
 
         VolleyManager manager = VolleyManager.getInstance(getContext());
-        manager.imageGet(track.getLargestArtwork(), holder.image, R.drawable.ic_launcher,
-                R.drawable.ic_launcher);
+        manager.imageGet(track.getLargestArtwork(), holder.image, android.R.drawable.ic_media_play,
+                android.R.drawable.ic_media_play);
 
         return convertView;
     }

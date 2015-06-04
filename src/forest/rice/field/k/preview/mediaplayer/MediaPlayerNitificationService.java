@@ -29,6 +29,9 @@ public class MediaPlayerNitificationService extends Service implements
     private NotificationCompat.Builder notificationBuilder = null;
     private Queue<Track> playQueue = null;
     private Track playingTrack = null;
+    private NotificationManagerCompat manager = null;
+
+    public static Intent startIntent;
 
     public class ServiceStatics {
         public static final String ACTION_INIT = "INIT";
@@ -63,6 +66,12 @@ public class MediaPlayerNitificationService extends Service implements
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
+        if (intent == null) {
+            return START_STICKY;
+        }
+
+        startIntent = intent;
+
         String action = intent.getAction();
 
         if (action == null) {
@@ -93,6 +102,13 @@ public class MediaPlayerNitificationService extends Service implements
         }
         player.release();
         player = null;
+
+        manager.cancelAll();
+    }
+
+    @Override
+    public boolean stopService(Intent name) {
+        return super.stopService(name);
     }
 
     private void init() {
@@ -111,7 +127,7 @@ public class MediaPlayerNitificationService extends Service implements
             PendingIntent playPIntent = PendingIntent.getService(
                     getApplicationContext(),
                     NotificationStatics.REQUEST_CODE_PLAY, playIntent,
-                    PendingIntent.FLAG_CANCEL_CURRENT);
+                    PendingIntent.FLAG_UPDATE_CURRENT);
 
             Intent pauseIntent = new Intent(getApplicationContext(),
                     MediaPlayerNitificationService.class);
@@ -119,7 +135,7 @@ public class MediaPlayerNitificationService extends Service implements
             PendingIntent pausePIntent = PendingIntent.getService(
                     getApplicationContext(),
                     NotificationStatics.REQUEST_CODE_PAUSE, pauseIntent,
-                    PendingIntent.FLAG_CANCEL_CURRENT);
+                    PendingIntent.FLAG_UPDATE_CURRENT);
 
             Intent closeIntent = new Intent(getApplicationContext(),
                     MediaPlayerNitificationService.class);
@@ -127,7 +143,7 @@ public class MediaPlayerNitificationService extends Service implements
             PendingIntent closePIntent = PendingIntent.getService(
                     getApplicationContext(),
                     NotificationStatics.REQUEST_CODE_CLOSE, closeIntent,
-                    PendingIntent.FLAG_CANCEL_CURRENT);
+                    PendingIntent.FLAG_UPDATE_CURRENT);
 
             notificationBuilder.addAction(android.R.drawable.ic_media_play,
                     "Play", playPIntent);
@@ -141,6 +157,8 @@ public class MediaPlayerNitificationService extends Service implements
         if (playQueue == null) {
             playQueue = new LinkedList<Track>();
         }
+
+        manager = NotificationManagerCompat.from(getApplicationContext());
     }
 
     private void add(Track track) {
@@ -156,6 +174,7 @@ public class MediaPlayerNitificationService extends Service implements
     private void play() {
         playingTrack = playQueue.poll();
         if (playingTrack == null) {
+            stopSelf();
             return;
         }
         if (player != null) {
@@ -185,26 +204,22 @@ public class MediaPlayerNitificationService extends Service implements
 
             notificationBuilder.setOngoing(true);
 
-            NotificationManagerCompat manager = NotificationManagerCompat
-                    .from(getApplicationContext());
             manager.notify(NotificationStatics.NOTIFY_ID,
                     notificationBuilder.build());
 
             // Bitmap画像は非同期で取得
-            fetchBitmapFromURLAsync(playingTrack.getLargestArtwork(), manager);
+            fetchBitmapFromURLAsync(playingTrack.getLargestArtwork());
         }
     }
 
     private void pause() {
-        if (playingTrack != null && player != null && player.isPlaying()) {
+        try {
             player.pause();
-        } else {
-            return;
+        } catch (IllegalStateException e) {
         }
+
         if (notificationBuilder != null) {
             notificationBuilder.setOngoing(false);
-            NotificationManagerCompat manager = NotificationManagerCompat
-                    .from(getApplicationContext());
             manager.notify(NotificationStatics.NOTIFY_ID,
                     notificationBuilder.build());
         }
@@ -214,14 +229,20 @@ public class MediaPlayerNitificationService extends Service implements
         if (player != null) {
             player.start();
         }
+
+        if (notificationBuilder != null) {
+            notificationBuilder.setOngoing(true);
+
+            manager.notify(NotificationStatics.NOTIFY_ID,
+                    notificationBuilder.build());
+        }
     }
 
     private void close() {
         stopSelf();
     }
 
-    private void fetchBitmapFromURLAsync(final String bitmapUrl,
-            final NotificationManagerCompat manager) {
+    private void fetchBitmapFromURLAsync(final String bitmapUrl) {
         AlbumArtCache.getInstance().fetch(bitmapUrl,
                 new AlbumArtCache.FetchListener() {
                     @Override
