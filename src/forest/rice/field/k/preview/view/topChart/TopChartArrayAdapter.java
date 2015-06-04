@@ -1,69 +1,68 @@
-package forest.rice.field.k.preview.view.topChart;
 
-import java.util.List;
+package forest.rice.field.k.preview.view.topChart;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import forest.rice.field.k.preview.R;
-import forest.rice.field.k.preview.entity.Item;
-import forest.rice.field.k.preview.manager.MediaPlayerManager;
+import forest.rice.field.k.preview.entity.Track;
+import forest.rice.field.k.preview.entity.Tracks;
 import forest.rice.field.k.preview.volley.VolleyManager;
 
-public class TopChartArrayAdapter extends ArrayAdapter<Item> {
-	private LayoutInflater layoutInflater_;
+public class TopChartArrayAdapter extends ArrayAdapter<Track> {
+    private LayoutInflater layoutInflater_;
 
-	List<Item> itemList = null;
+    private Tracks tracks = null;
 
-	public TopChartArrayAdapter(Context context, List<Item> objects) {
-		super(context, 0, objects);
+    public TopChartArrayAdapter(Context context, Tracks tracks) {
+        super(context, 0, tracks);
 
-		layoutInflater_ = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater_ = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		itemList = objects;
-	}
-	
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		final ViewHolder holder;
+        this.tracks = tracks;
+    }
 
-		if (convertView == null) {
-			convertView = layoutInflater_.inflate(
-					R.layout.fragment_topchart_list, null);
-			holder = new ViewHolder();
-			holder.name = (TextView) convertView
-					.findViewById(R.id.topchart_name);
-			holder.artist = (TextView) convertView
-					.findViewById(R.id.topchart_artist);
-			holder.image = (ImageView) convertView
-					.findViewById(R.id.topchart_image);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
 
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
+        if (convertView == null) {
+            convertView = layoutInflater_.inflate(
+                    R.layout.fragment_topchart_list, null);
+            holder = new ViewHolder();
+            holder.name = (TextView) convertView
+                    .findViewById(R.id.topchart_name);
+            holder.artist = (TextView) convertView
+                    .findViewById(R.id.topchart_artist);
+            holder.image = (ImageView) convertView
+                    .findViewById(R.id.topchart_image);
 
-		final Item item = itemList.get(position);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-		holder.name.setText(item.name);
-		holder.artist.setText(item.artist);
-		
-		VolleyManager manager = VolleyManager.getInstance(getContext());
-		manager.imageGet(item.image, holder.image, R.drawable.ic_launcher, R.drawable.ic_launcher);
-		
-		return convertView;
-	}
+        Track track = tracks.get(position);
 
-	private class ViewHolder {
-		TextView name;
-		TextView artist;
-		ImageView image;
-	}
+        holder.name.setText(track.get(Track.trackName));
+        holder.artist.setText(track.get(Track.artistName));
+
+        VolleyManager manager = VolleyManager.getInstance(getContext());
+        manager.imageGet(track.getLargestArtwork(), holder.image, R.drawable.ic_launcher,
+                R.drawable.ic_launcher);
+
+        return convertView;
+    }
+
+    private class ViewHolder {
+        TextView name;
+        TextView artist;
+        ImageView image;
+    }
 
 }

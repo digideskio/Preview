@@ -1,61 +1,36 @@
 package forest.rice.field.k.preview.view.topChart;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.AsyncTask;
-import forest.rice.field.k.preview.entity.Item;
-import forest.rice.field.k.preview.manager.ITunesRssManager;
+import forest.rice.field.k.preview.entity.Tracks;
 import forest.rice.field.k.preview.request.ITunesRssRequest;
 
-public class TopChartAsyncTask extends AsyncTask<String, String, List<Item>> {
+public class TopChartAsyncTask extends AsyncTask<String, String, Tracks> {
 	
 	public TopChartAsyncTaskCallback callback;
 
 	@Override
-	protected List<Item> doInBackground(String... arg0) {
-		
-//		ITunesApiCollectionLookupRequest lookupRequest = new ITunesApiCollectionLookupRequest("992829265");
-//		ITunesApiLookupManager lookupManager = new ITunesApiLookupManager();
-//		try {
-//			CollectionItem collection = lookupManager.parseCollectionJson(lookupRequest.getJson());
-//			
-//			System.out.println(collection.resultCount);
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		} catch (Exception e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//		
-		ITunesRssRequest request = new ITunesRssRequest();
-		List<Item> itemList = new ArrayList<Item>();
+	protected Tracks doInBackground(String... arg0) {
+	    Tracks tracks = new Tracks();
 		try {
-			
-			ITunesRssManager manager = ITunesRssManager.getInstance();
-			manager.parse(request.getJson());
-			
-			itemList = manager.getItemList();
+		    ITunesRssRequest request = new ITunesRssRequest();
+			tracks = request.parse(request.getJson());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
-		return itemList;
+		return tracks;
 	}
 	
 	@Override
-	protected void onPostExecute(List<Item> result) {
-		super.onPostExecute(result);
+	protected void onPostExecute(Tracks tracks) {
+		super.onPostExecute(tracks);
 		
 		if(callback != null) {
-			callback.callback(result);
+			callback.callback(tracks);
 		}
 	}
 	
 	public interface TopChartAsyncTaskCallback {
-		void callback(List<Item> list);
+		void callback(Tracks tracks);
 	}
 
 }

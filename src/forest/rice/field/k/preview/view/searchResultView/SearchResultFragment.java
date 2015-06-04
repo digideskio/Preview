@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import forest.rice.field.k.preview.entity.SearchResultItems;
+import forest.rice.field.k.preview.entity.Tracks;
 import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService;
-import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService.Service;
+import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService.ServiceStatics;
 import forest.rice.field.k.preview.view.searchResultView.SearchResultAsyncTask.SearchResultAsyncTaskCallback;
 
 public class SearchResultFragment extends ListFragment implements
@@ -15,7 +15,7 @@ public class SearchResultFragment extends ListFragment implements
 
 	public static final String KEYWORD = "keyword";
 	
-	private SearchResultItems items = null;
+	private Tracks items = null;
 	
 	private String keyword = null;
 
@@ -54,23 +54,23 @@ public class SearchResultFragment extends ListFragment implements
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent service = new Intent(getActivity(), MediaPlayerNitificationService.class);
-		service.setAction(Service.ACTION_TRACK_CLEAR);
+		service.setAction(ServiceStatics.ACTION_TRACK_CLEAR);
 		getActivity().startService(service);
 		
 		for(int i = position; i < items.size(); i++) {
 			Intent service2 = new Intent(getActivity(), MediaPlayerNitificationService.class);
 			service2.putExtra("TRACK", items.get(i));
 			
-			service2.setAction(Service.ACTION_TRACK_ADD);
+			service2.setAction(ServiceStatics.ACTION_TRACK_ADD);
 			getActivity().startService(service2);
 		}
 		
-		service.setAction(Service.ACTION_PLAY);
+		service.setAction(ServiceStatics.ACTION_PLAY);
 		getActivity().startService(service);
 	}
 	
 	@Override
-	public void callback(SearchResultItems result) {
+	public void callback(Tracks result) {
 		items = result;
 		SearchResultArrayAdapter adapter = new SearchResultArrayAdapter(
 				getActivity(), 0, result);

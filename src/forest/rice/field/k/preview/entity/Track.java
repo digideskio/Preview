@@ -67,4 +67,17 @@ public class Track extends HashMap<String, String> {
 		return (value != null) ? value : "";
 	}
 	
+	public String getLargestArtwork() {		
+		if(get(artworkUrl100).length() > 0) {
+			return get(artworkUrl100); 
+		}
+		if(get(artworkUrl60).length() > 0) {
+			return get(artworkUrl60); 
+		}
+		if(get(artworkUrl30).length() > 0) {
+			return get(artworkUrl30); 
+		}
+		return "";
+	}
+	
 }

@@ -9,16 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import forest.rice.field.k.preview.R;
 import forest.rice.field.k.preview.entity.Track;
-import forest.rice.field.k.preview.entity.SearchResultItems;
+import forest.rice.field.k.preview.entity.Tracks;
 import forest.rice.field.k.preview.volley.VolleyManager;
 
 public class SearchResultArrayAdapter extends ArrayAdapter<Track> {
 	private LayoutInflater layoutInflater_;
 
-	private SearchResultItems item;
+	private Tracks item;
 
 	public SearchResultArrayAdapter(Context context, int resource,
-			SearchResultItems searchResultItem) {
+			Tracks searchResultItem) {
 		super(context, 0, searchResultItem);
 		
 		layoutInflater_ = (LayoutInflater) context
