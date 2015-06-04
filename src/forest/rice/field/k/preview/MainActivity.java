@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
+import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService;
 import forest.rice.field.k.preview.view.searchResultView.SearchResultFragment;
 import forest.rice.field.k.preview.view.topChart.TopChartAsyncTask;
 import forest.rice.field.k.preview.view.topChart.TopChartListFragment;
@@ -30,6 +31,13 @@ public class MainActivity extends Activity implements OnQueryTextListener {
 
         TopChartAsyncTask task = new TopChartAsyncTask();
         task.execute();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        stopService(new Intent(getApplicationContext(), MediaPlayerNitificationService.class));
     }
 
     @Override
