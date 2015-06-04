@@ -1,9 +1,6 @@
 
 package forest.rice.field.k.preview.view.topChart;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,9 +39,9 @@ public class TopChartListFragment extends ListFragment implements TopChartAsyncT
         super.onStart();
 
         getActivity().getActionBar().setTitle(getString(R.string.app_name));
-    };
 
-    List<Integer> playingList = new ArrayList<Integer>();
+        setEmptyText("No Result");
+    };
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
