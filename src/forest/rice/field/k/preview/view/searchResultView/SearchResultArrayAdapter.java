@@ -2,13 +2,10 @@
 package forest.rice.field.k.preview.view.searchResultView;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import forest.rice.field.k.preview.R;
@@ -48,7 +45,6 @@ public class SearchResultArrayAdapter extends ArrayAdapter<Track> {
                     .findViewById(R.id.searchresult_artist);
             holder.image = (ImageView) convertView
                     .findViewById(R.id.searchresult_image);
-            holder.link = (ImageButton) convertView.findViewById(R.id.searchresult_link);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -59,20 +55,20 @@ public class SearchResultArrayAdapter extends ArrayAdapter<Track> {
         holder.name.setText(track.get("trackName"));
         holder.artist.setText(track.get("artistName"));
 
-        holder.link.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse(track
-                        .get(Track.trackViewUrl));
-                if (uri != null && uri.getHost() != null) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    context.startActivity(intent);
-                }
-            }
-
-        });
-
+        // holder.link.setOnClickListener(new View.OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // Uri uri = Uri.parse(track
+        // .get(Track.trackViewUrl));
+        // if (uri != null && uri.getHost() != null) {
+        // Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        // context.startActivity(intent);
+        // }
+        // }
+        //
+        // });
+        //
         VolleyManager manager = VolleyManager.getInstance(getContext());
         manager.imageGet(track.getLargestArtwork(), holder.image,
                 android.R.drawable.ic_media_play,
@@ -85,6 +81,5 @@ public class SearchResultArrayAdapter extends ArrayAdapter<Track> {
         TextView name;
         TextView artist;
         ImageView image;
-        ImageButton link;
     }
 }
