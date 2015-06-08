@@ -2,10 +2,13 @@
 package forest.rice.field.k.preview.view.topChart;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import forest.rice.field.k.preview.R;
@@ -17,9 +20,12 @@ public class TopChartArrayAdapter extends ArrayAdapter<Track> {
     private LayoutInflater layoutInflater_;
 
     private Tracks tracks = null;
+    private Context context = null;
 
     public TopChartArrayAdapter(Context context, Tracks tracks) {
         super(context, 0, tracks);
+
+        this.context = context;
 
         layoutInflater_ = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,16 +47,31 @@ public class TopChartArrayAdapter extends ArrayAdapter<Track> {
                     .findViewById(R.id.topchart_artist);
             holder.image = (ImageView) convertView
                     .findViewById(R.id.topchart_image);
+            holder.link = (ImageButton) convertView.findViewById(R.id.topchart_link);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Track track = tracks.get(position);
+        final Track track = tracks.get(position);
 
         holder.name.setText(track.get(Track.trackName));
         holder.artist.setText(track.get(Track.artistName));
+
+        holder.link.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(track
+                        .get(Track.trackViewUrl));
+                if (uri != null && uri.getHost() != null) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    context.startActivity(intent);
+                }
+            }
+
+        });
 
         VolleyManager manager = VolleyManager.getInstance(getContext());
         manager.imageGet(track.getLargestArtwork(), holder.image, android.R.drawable.ic_media_play,
@@ -63,6 +84,7 @@ public class TopChartArrayAdapter extends ArrayAdapter<Track> {
         TextView name;
         TextView artist;
         ImageView image;
+        ImageButton link;
     }
 
 }

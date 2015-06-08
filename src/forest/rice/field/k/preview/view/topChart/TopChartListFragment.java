@@ -13,7 +13,8 @@ import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService;
 import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService.ServiceStatics;
 import forest.rice.field.k.preview.view.topChart.TopChartAsyncTask.TopChartAsyncTaskCallback;
 
-public class TopChartListFragment extends ListFragment implements TopChartAsyncTaskCallback {
+public class TopChartListFragment extends ListFragment implements TopChartAsyncTaskCallback
+{
 
     private Tracks tracks;
 
@@ -70,4 +71,5 @@ public class TopChartListFragment extends ListFragment implements TopChartAsyncT
         TopChartArrayAdapter adapter = new TopChartArrayAdapter(getActivity(), tracks);
         setListAdapter(adapter);
     }
+
 }
