@@ -73,6 +73,7 @@ public class SearchResultArrayAdapter extends ArrayAdapter<Track> {
         manager.imageGet(track.getLargestArtwork(), holder.image,
                 android.R.drawable.ic_media_play,
                 android.R.drawable.ic_media_play);
+        holder.image.setClickable(true);
 
         return convertView;
     }

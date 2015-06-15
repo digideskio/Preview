@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="forest.rice.field.k.preview.MainActivity" >
+    tools:context="forest.rice.field.k.preview.LyricActivity" >
 
     <item
         android:id="@+id/action_settings"

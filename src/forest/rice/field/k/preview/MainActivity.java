@@ -31,6 +31,7 @@ public class MainActivity extends Activity implements OnQueryTextListener {
 
         TopChartAsyncTask task = new TopChartAsyncTask();
         task.execute();
+
     }
 
     @Override

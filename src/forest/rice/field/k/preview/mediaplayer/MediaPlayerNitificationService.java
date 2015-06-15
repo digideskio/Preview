@@ -168,7 +168,6 @@ public class MediaPlayerNitificationService extends Service implements
             notificationBuilder.addAction(android.R.drawable.ic_media_pause,
                     "Pause", pausePIntent);
             notificationBuilder.setDeleteIntent(closePIntent);
-            notificationBuilder.setDeleteIntent(openWebPIntent);
             notificationBuilder.setContentIntent(openWebPIntent);
 
             notificationBuilder.setAutoCancel(false);
