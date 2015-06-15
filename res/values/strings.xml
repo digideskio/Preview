@@ -5,7 +5,7 @@
     <string name="menu_source">Source</string>
     <string name="track_select_action_preview">プレビュー</string>
     <string name="track_select_action_preview_all">連続プレビュー</string>
-    <string name="track_select_action_itunes">iTunesで購入</string>
+    <string name="track_select_action_itunes">購入ページ</string>
     <string name="track_select_action_search_lyric">歌詞検索</string>
     <string name="track_select_action_search_lyric_artist">歌詞検索[アーティスト名のみ]</string>
     <string name="track_select_action_search_lyric_beta">歌詞検索（β）</string>
