@@ -9,6 +9,5 @@
     <string name="track_select_action_search_lyric">歌詞検索</string>
     <string name="track_select_action_search_lyric_artist">歌詞検索[アーティスト名のみ]</string>
     <string name="track_select_action_search_lyric_beta">歌詞検索（β）</string>
-    <string name="title_activity_lyric">LyricActivity</string>
 
 </resources>

@@ -5,17 +5,10 @@
     android:orientation="vertical"
     tools:context="forest.rice.field.k.preview.LyricActivity$PlaceholderFragment" >
 
-    <ListView
-        android:id="@+id/lyric_search_results"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" >
-    </ListView>
-
     <WebView
         android:id="@+id/lyric_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
 </LinearLayout>

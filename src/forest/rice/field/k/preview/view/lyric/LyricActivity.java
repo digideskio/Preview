@@ -14,7 +14,7 @@ import android.widget.Toast;
 import forest.rice.field.k.preview.R;
 import forest.rice.field.k.preview.entity.Lyric;
 import forest.rice.field.k.preview.entity.Lyrics;
-import forest.rice.field.k.preview.jsoup.Search;
+import forest.rice.field.k.preview.request.LyricRequest;
 import forest.rice.field.k.preview.view.dialog.LyricSelectDialogFragment;
 
 public class LyricActivity extends Activity {
@@ -72,7 +72,7 @@ public class LyricActivity extends Activity {
 
             @Override
             protected Lyrics doInBackground(String... params) {
-                Search search = new Search();
+                LyricRequest search = new LyricRequest();
 
                 String artist = params[0];
                 String track = params[1];
@@ -120,7 +120,7 @@ public class LyricActivity extends Activity {
         class LyricsGetTask extends AsyncTask<Lyric, Integer, Lyric> {
             @Override
             protected Lyric doInBackground(Lyric... params) {
-                Search search = new Search();
+                LyricRequest search = new LyricRequest();
                 return search.getLyric(params[0]);
             }
 
