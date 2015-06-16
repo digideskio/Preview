@@ -26,7 +26,7 @@ public abstract class BaseListFragment extends ListFragment {
     public void onStart() {
         super.onStart();
 
-        setEmptyText("No Result");
+        setEmptyText(getString(R.string.track_search_no_result));
     }
 
     @Override
@@ -65,14 +65,6 @@ public abstract class BaseListFragment extends ListFragment {
                     }
                         break;
                     case 4:
-                    // 歌詞検索[アーティスト検索]
-                    {
-                        Intent i = IntentManager.createLyricsViewInBrowserIntent(
-                                tracks.get(position).get(Track.artistName));
-                        startActivity(i);
-                    }
-                        break;
-                    case 5:
                     // 歌詞検索β
                     {
                         Intent i = new Intent(getActivity(), LyricActivity.class);

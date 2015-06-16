@@ -10,12 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 import forest.rice.field.k.preview.R;
 import forest.rice.field.k.preview.entity.Lyric;
 import forest.rice.field.k.preview.entity.Lyrics;
 import forest.rice.field.k.preview.request.LyricRequest;
 import forest.rice.field.k.preview.view.dialog.LyricSelectDialogFragment;
+import forest.rice.field.k.preview.view.dialog.SimpleAlertDialog;
 
 public class LyricActivity extends Activity {
 
@@ -40,6 +41,7 @@ public class LyricActivity extends Activity {
     public static class PlaceholderFragment extends Fragment {
 
         private WebView webview;
+        private ProgressBar progressBar;
 
         public PlaceholderFragment() {
         }
@@ -50,6 +52,7 @@ public class LyricActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_lyric, container, false);
 
             webview = (WebView) rootView.findViewById(R.id.lyric_webview);
+            progressBar = (ProgressBar) rootView.findViewById(R.id.lyric_progress);
 
             String artist = getActivity().getIntent().getStringExtra(EXTRA_ARTIST);
             String track = getActivity().getIntent().getStringExtra(EXTRA_TRACK);
@@ -85,8 +88,21 @@ public class LyricActivity extends Activity {
             protected void onPostExecute(final Lyrics result) {
                 switch (result.size()) {
                     case 0:
-                        // なし
-                        Toast.makeText(getActivity(), "見つかりませんでした。", Toast.LENGTH_SHORT);
+                    // なし
+                    {
+                        SimpleAlertDialog dialog = SimpleAlertDialog
+                                .newInstance(getString(R.string.lyric_search_no_result));
+                        dialog.mOnClickListener = new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getActivity().finish();
+                            }
+                        };
+                        dialog.show(getFragmentManager(), "tag");
+
+                        progressBar.setVisibility(View.GONE);
+                    }
                         break;
                     case 1:
                         // Webビューに表示
@@ -97,8 +113,7 @@ public class LyricActivity extends Activity {
                     {
                         String[] items = new String[result.size()];
                         for (int i = 0; i < result.size(); i++) {
-                            items[i] = result.get(i).get(Lyric.TRACK_NAME) + " / "
-                                    + result.get(i).get(Lyric.ARTIST_NAME);
+                            items[i] = result.get(i).getFormatedTitleWithArtist();
                         }
 
                         LyricSelectDialogFragment dialogFragment = LyricSelectDialogFragment
@@ -128,6 +143,8 @@ public class LyricActivity extends Activity {
             protected void onPostExecute(Lyric result) {
                 webview.loadDataWithBaseURL(null, result.get(Lyric.LYRICS), "text/html", "UTF-8",
                         null);
+                progressBar.setVisibility(View.GONE);
+                webview.setVisibility(View.VISIBLE);
             }
         }
     }

@@ -23,4 +23,13 @@ public class Lyric extends HashMap<String, String> {
         }
         return baseUrl + get(TRACK_URL).substring(1);
     }
+
+    @Override
+    public String get(Object key) {
+        return (super.get(key) != null) ? super.get(key) : "";
+    }
+
+    public String getFormatedTitleWithArtist() {
+        return get(Lyric.TRACK_NAME) + " / " + get(Lyric.ARTIST_NAME);
+    }
 }
