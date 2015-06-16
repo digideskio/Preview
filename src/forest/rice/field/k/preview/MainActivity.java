@@ -31,6 +31,7 @@ public class MainActivity extends Activity implements OnQueryTextListener {
 
         TopChartAsyncTask task = new TopChartAsyncTask();
         task.execute();
+
     }
 
     @Override
@@ -58,17 +59,10 @@ public class MainActivity extends Activity implements OnQueryTextListener {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_settings:
-                Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://github.com/moritalous/Preview"));
-                startActivity(intent);
-                break;
-
-            default:
-                break;
+        if (item.getTitle().equals("Source")) {
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://github.com/moritalous/Preview"));
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

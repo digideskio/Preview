@@ -2,7 +2,13 @@
 <resources>
 
     <string name="app_name">Preview</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="menu_source">Source</string>
+    <string name="track_select_action_preview">プレビュー</string>
+    <string name="track_select_action_preview_all">連続プレビュー</string>
+    <string name="track_select_action_detail">詳細ページ(外部サイト)</string>
+    <string name="track_select_action_search_lyric">歌詞検索(外部サイト)</string>
+    <string name="track_select_action_search_lyric_beta">歌詞検索（β）</string>
+    <string name="track_search_no_result">No Result</string>
+    <string name="lyric_search_no_result">見つかりませんでした。</string>
 
 </resources>

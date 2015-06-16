@@ -1,31 +1,18 @@
 
 package forest.rice.field.k.preview.view.topChart;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.ListFragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ListView;
 import forest.rice.field.k.preview.R;
-import forest.rice.field.k.preview.entity.Track;
 import forest.rice.field.k.preview.entity.Tracks;
-import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService;
-import forest.rice.field.k.preview.mediaplayer.MediaPlayerNitificationService.ServiceStatics;
+import forest.rice.field.k.preview.view.base.BaseListFragment;
 import forest.rice.field.k.preview.view.topChart.TopChartAsyncTask.TopChartAsyncTaskCallback;
 
-public class TopChartListFragment extends ListFragment implements TopChartAsyncTaskCallback {
-
-    private Tracks tracks;
+public class TopChartListFragment extends BaseListFragment implements TopChartAsyncTaskCallback
+{
 
     public static TopChartListFragment newInstance() {
         TopChartListFragment fragment = new TopChartListFragment();
         return fragment;
-    }
-
-    public TopChartListFragment() {
     }
 
     @Override
@@ -43,29 +30,6 @@ public class TopChartListFragment extends ListFragment implements TopChartAsyncT
 
         getActivity().getActionBar().setTitle(getString(R.string.app_name));
     };
-
-    List<Integer> playingList = new ArrayList<Integer>();
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-
-        Intent service = new Intent(getActivity(), MediaPlayerNitificationService.class);
-        service.setAction(ServiceStatics.ACTION_TRACK_CLEAR);
-        getActivity().startService(service);
-
-        for (int i = position; i < tracks.size(); i++) {
-            Track track = tracks.get(i);
-
-            Intent service2 = new Intent(getActivity(), MediaPlayerNitificationService.class);
-            service2.putExtra("TRACK", track);
-
-            service2.setAction(ServiceStatics.ACTION_TRACK_ADD);
-            getActivity().startService(service2);
-        }
-
-        service.setAction(ServiceStatics.ACTION_PLAY);
-        getActivity().startService(service);
-    }
 
     @Override
     public void callback(Tracks tracks) {

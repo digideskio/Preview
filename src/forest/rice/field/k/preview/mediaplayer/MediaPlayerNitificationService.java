@@ -13,6 +13,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -41,6 +42,7 @@ public class MediaPlayerNitificationService extends Service implements
         public static final String ACTION_RESUME = "RESUME";
         public static final String ACTION_PAUSE = "PAUSE";
         public static final String ACTION_CLOSE = "CLOSE";
+        public static final String ACTION_OPENWEB = "OPENWEB";
     }
 
     public class NotificationStatics {
@@ -48,6 +50,7 @@ public class MediaPlayerNitificationService extends Service implements
         public static final int REQUEST_CODE_PAUSE = 2001;
         public static final int REQUEST_CODE_RESUME = 3001;
         public static final int REQUEST_CODE_CLOSE = 4001;
+        public static final int REQUEST_CODE_OPENWEB = 5001;
         public static final int NOTIFY_ID = 3001;
     }
 
@@ -88,8 +91,16 @@ public class MediaPlayerNitificationService extends Service implements
             resume();
         } else if (action.equals(ServiceStatics.ACTION_CLOSE)) {
             close();
-        }
+        } else if (action.equals(ServiceStatics.ACTION_OPENWEB)) {
+            Uri uri = Uri.parse(playingTrack.get(Track.trackViewUrl));
+            if (uri != null && uri.getHost() != null) {
+                Intent openweb = new Intent(Intent.ACTION_VIEW, uri);
+                openweb.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                // openweb.setFlags(geta);
+                getApplication().startActivity(openweb);
 
+            }
+        }
         return START_STICKY;
     }
 
@@ -145,11 +156,19 @@ public class MediaPlayerNitificationService extends Service implements
                     NotificationStatics.REQUEST_CODE_CLOSE, closeIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
 
+            Intent openwebIntent = new Intent(getApplicationContext(),
+                    MediaPlayerNitificationService.class);
+            openwebIntent.setAction(ServiceStatics.ACTION_OPENWEB);
+            PendingIntent openWebPIntent = PendingIntent.getService(getApplicationContext(),
+                    NotificationStatics.REQUEST_CODE_OPENWEB, openwebIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+
             notificationBuilder.addAction(android.R.drawable.ic_media_play,
                     "Play", playPIntent);
             notificationBuilder.addAction(android.R.drawable.ic_media_pause,
                     "Pause", pausePIntent);
             notificationBuilder.setDeleteIntent(closePIntent);
+            notificationBuilder.setContentIntent(openWebPIntent);
 
             notificationBuilder.setAutoCancel(false);
         }
