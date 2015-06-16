@@ -5,6 +5,11 @@ import java.util.HashMap;
 
 public class Lyric extends HashMap<String, String> {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6095105729259590036L;
+
     public static final String TRACK_NAME = "TRACK_NAME";
     public static final String TRACK_URL = "TRACK_URL";
     public static final String ARTIST_NAME = "ARTIST_NAME";
