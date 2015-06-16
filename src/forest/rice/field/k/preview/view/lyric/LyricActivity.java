@@ -54,6 +54,8 @@ public class LyricActivity extends Activity {
             webview = (WebView) rootView.findViewById(R.id.lyric_webview);
             progressBar = (ProgressBar) rootView.findViewById(R.id.lyric_progress);
 
+            progressBar.setVisibility(View.VISIBLE);
+
             String artist = getActivity().getIntent().getStringExtra(EXTRA_ARTIST);
             String track = getActivity().getIntent().getStringExtra(EXTRA_TRACK);
 
@@ -141,10 +143,10 @@ public class LyricActivity extends Activity {
 
             @Override
             protected void onPostExecute(Lyric result) {
+                progressBar.setVisibility(View.GONE);
                 webview.loadDataWithBaseURL(null, result.get(Lyric.LYRICS), "text/html", "UTF-8",
                         null);
-                progressBar.setVisibility(View.GONE);
-                webview.setVisibility(View.VISIBLE);
+
             }
         }
     }
