@@ -29,7 +29,9 @@
         <service android:name=".mediaplayer.MediaPlayerNitificationService" >
         </service>
 
-        <activity android:name="forest.rice.field.k.preview.view.lyric.LyricActivity" >
+        <activity
+            android:name="forest.rice.field.k.preview.view.lyric.LyricActivity"
+            android:configChanges="orientation|screenSize" >
         </activity>
     </application>
 
